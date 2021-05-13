@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/inicial',[ClienteController::class,'telaInicial']);
+Route::get('/inicial',[ClienteController::class,'telaInicial'])->name('inicial');
 Route::post('/final',[ClienteController::class,'telaFinal']);
 
 
@@ -35,3 +35,5 @@ Route::get('/cliente/editar/{id}',[ClienteController::class,'editar'])->name('cl
 Route::get('/cliente/excluir/{id}',[ClienteController::class,'excluir'])->name('cliente_excluir');
 
 Route::get('/cliente/lista',[ClienteController::class, 'tela_principal'])->name('cliente_lista');
+
+Route::get('/cliente/logout',[ClienteController::class, 'logout'])->name('logout');

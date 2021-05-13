@@ -20,11 +20,8 @@ class ClienteController extends Controller
     	$us = Cliente::all();
     	
     	if ($u && $u->senha == $senha){
-    		return view('final', [
-    			'resposta' => "Acesso concedido",
-    			'tipo_resposta' => 'success',
-    			'clientes' => $us
-    		]);
+    		session(['login' => $email]);
+            return redirect()->route('cliente_lista');
     	} else {
        		return view('final', [
     			'resposta' => "Acesso negado",
@@ -55,6 +52,8 @@ class ClienteController extends Controller
         $u->cep  =  $cep;
         $u->estado  =  $estado;
         $u->save();
+        session()-> flash('mensagem', "O usuário {$u->nome} foi inserido com sucesso");
+
         return redirect()->route('cliente_lista');
     }
     function alterar(Request  $req, $id){
@@ -66,6 +65,8 @@ class ClienteController extends Controller
         $u->cidade = $req->input('cidade');
         $u->cep = $req->input('cep');
         $u->estado = $req->input('estado');
+        session()-> flash('mensagem', "O usuário {$u->nome} foi alterado com sucesso");
+
         $u->save();
 
         return redirect()->route('cliente_lista');
@@ -87,6 +88,10 @@ class ClienteController extends Controller
         $u->delete();
         return redirect()->route('cliente_lista');
 
+    }
+    function logout(){
+        session()->forget('inicial');
+        return redirect()->route('inicial');
     }
 
 }
