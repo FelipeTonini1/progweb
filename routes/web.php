@@ -22,18 +22,21 @@ Route::get('/', function () {
 Route::get('/inicial',[ClienteController::class,'telaInicial'])->name('inicial');
 Route::post('/final',[ClienteController::class,'telaFinal']);
 
+Route::middleware('auth')->group(function(){
+	Route::get('/cliente/novo',[ClienteController::class, 'novo'])->name('cliente_novo');
 
+	Route::post('/cliente/inserir',[ClienteController::class, 'inserir'])->name('cliente_inserir');
 
-Route::get('/cliente/novo',[ClienteController::class, 'novo'])->name('cliente_novo');
+	Route::post('/cliente/alterar/{id}',[ClienteController::class,'alterar'])->name('cliente_alterar');
 
-Route::post('/cliente/inserir',[ClienteController::class, 'inserir'])->name('cliente_inserir');
+	Route::get('/cliente/editar/{id}',[ClienteController::class,'editar'])->name('cliente_editar');
 
-Route::post('/cliente/alterar/{id}',[ClienteController::class,'alterar'])->name('cliente_alterar');
+	Route::get('/cliente/excluir/{id}',[ClienteController::class,'excluir'])->name('cliente_excluir');
 
-Route::get('/cliente/editar/{id}',[ClienteController::class,'editar'])->name('cliente_editar');
-
-Route::get('/cliente/excluir/{id}',[ClienteController::class,'excluir'])->name('cliente_excluir');
-
-Route::get('/cliente/lista',[ClienteController::class, 'tela_principal'])->name('cliente_lista');
+	Route::get('/cliente/lista',[ClienteController::class, 'tela_principal'])->name('cliente_lista');
+});
 
 Route::get('/cliente/logout',[ClienteController::class, 'logout'])->name('logout');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
